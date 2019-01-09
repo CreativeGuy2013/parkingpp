@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
-var currentLocation = <String, double>{};
 
 var location = new Location();
 
 void main() {
-  location.onLocationChanged().listen((Map<String, double> currentLocation) {
-    print(currentLocation["latitude"]);
-    print(currentLocation["longitude"]);
-    print(currentLocation["accuracy"]);
-    print(currentLocation["altitude"]);
-    print(currentLocation["speed"]);
-    print(currentLocation["speed_accuracy"]); // Will always be 0 on iOS
-  });
-
   runApp(MaterialApp(home: Home()));
 }
 
@@ -28,7 +16,19 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  void centerLocation() {}
+  void centerLocation() {
+    location.getLocation().then((Map<String, double> currentLocation) {
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0.00,
+          target: LatLng(currentLocation["latitude"], currentLocation["longitude"]),
+          tilt: 0,
+          zoom: 17.0,
+        ),
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +37,7 @@ class HomeState extends State<Home> {
         onMapCreated: _onMapCreated,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => centerLocation(),
         tooltip: 'Your Lcation',
         child: Icon(Icons.my_location),
         elevation: 2.0,
