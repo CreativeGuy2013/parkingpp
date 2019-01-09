@@ -7,18 +7,95 @@ class PurchaseSheet extends StatefulWidget {
 
 class PurchaseSheetState extends State<PurchaseSheet> {
 
+  TimeOfDay _toTime = const TimeOfDay(hour: 7, minute: 28);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text('How long do you want to park?',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.00,
-          )
+        child: ListView(
+          children: <Widget>[
+            Text('How long do you want to park?',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.00,
+              )
+            ),
+
+            InkWell(
+              onTap: () { _selectTime(context); },
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  labelText: "select time",
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(_toTime.format(context)),
+                    Icon(Icons.arrow_drop_down,
+                      color: Theme.of(context).brightness == Brightness.light ? Colors.grey.shade700 : Colors.white70
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         )
+        
       )
+    );
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: _toTime
+    );
+    if (picked != null && picked != _toTime)
+      setState(() {
+      _toTime = picked;
+    });
+  }
+}
+
+
+class _InputDropdown extends StatelessWidget {
+  const _InputDropdown({
+    Key key,
+    this.child,
+    this.labelText,
+    this.valueText,
+    this.valueStyle,
+    this.onPressed }) : super(key: key);
+
+  final String labelText;
+  final String valueText;
+  final TextStyle valueStyle;
+  final VoidCallback onPressed;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: labelText,
+        ),
+        baseStyle: valueStyle,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(valueText, style: valueStyle),
+            Icon(Icons.arrow_drop_down,
+              color: Theme.of(context).brightness == Brightness.light ? Colors.grey.shade700 : Colors.white70
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
