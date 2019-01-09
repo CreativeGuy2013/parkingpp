@@ -17,30 +17,15 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  void _centerOnCurrentLocation() {
-    location.getLocation().then((Map<String, double> currentLocation) {
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: 0.00,
-          target: LatLng(currentLocation["latitude"], currentLocation["longitude"]),
-          tilt: 0,
-          zoom: 18.0,
-        ),
-      ));
-      mapController.clearMarkers();
-      mapController.addMarker(
-        MarkerOptions(
-          consumeTapEvents: true,  // <----- insert this line
-          position: LatLng(currentLocation["latitude"], currentLocation["longitude"])
-          
-        ),
-      );
-      mapController.onMarkerTapped.add((Marker m){
-        showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+  _continueFromMap() {
+    var _latLng = mapController.cameraPosition.target;
+    print(_latLng);
+
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
           return PurchaseSheet();
         });
-      }); 
-    });
   }
 
   @override
@@ -51,10 +36,11 @@ class HomeState extends State<Home> {
           onMapCreated: _onMapCreated,
           options: GoogleMapOptions(
             myLocationEnabled: true,
+            trackCameraPosition: true,
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _centerOnCurrentLocation(),
+          onPressed: () => _continueFromMap(),
           tooltip: '',
           child: Icon(Icons.arrow_forward),
           elevation: 2.0,
