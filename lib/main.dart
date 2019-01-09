@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  _continueFromMap() {
+  _continueToPay() {
     var _latLng = mapController.cameraPosition.target;
     print(_latLng);
 
@@ -40,7 +40,7 @@ class HomeState extends State<Home> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _continueFromMap(),
+          onPressed: () => _continueToPay(),
           tooltip: '',
           child: Icon(Icons.arrow_forward),
           elevation: 2.0,
