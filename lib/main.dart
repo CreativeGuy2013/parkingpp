@@ -31,7 +31,7 @@ class HomeState extends State<Home> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => _centerOnCurrentLocation(),
           tooltip: '',
-          child: Icon(Icons.payment),
+          child: Icon(Icons.arrow_forward),
           elevation: 2.0,
         ));
   }
