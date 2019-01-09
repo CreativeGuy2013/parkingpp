@@ -17,14 +17,14 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  void centerLocation() {
+  void _centerOnCurrentLocation() {
     location.getLocation().then((Map<String, double> currentLocation) {
       mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0.00,
           target: LatLng(currentLocation["latitude"], currentLocation["longitude"]),
           tilt: 0,
-          zoom: 17.0,
+          zoom: 18.0,
         ),
       ));
       mapController.clearMarkers();
