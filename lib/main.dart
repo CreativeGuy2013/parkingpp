@@ -16,38 +16,43 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  void centerLocation() {
-    location.getLocation().then((Map<String, double> currentLocation) {
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: 0.00,
-          target: LatLng(currentLocation["latitude"], currentLocation["longitude"]),
-          tilt: 0,
-          zoom: 17.0,
-        ),
-      ));
-    });
-  }
+  void _centerOnCurrentLocation() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Parking++')),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => centerLocation(),
-        tooltip: 'Your Lcation',
-        child: Icon(Icons.my_location),
-        elevation: 2.0,
-      ),
-    );
+        appBar: AppBar(title: const Text('Parking++')),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          options: GoogleMapOptions(
+            myLocationEnabled: true,
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _centerOnCurrentLocation(),
+          tooltip: '',
+          child: Icon(Icons.payment),
+          elevation: 2.0,
+        ));
   }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
+    });
+
+    location.getLocation().then((Map<String, double> currentLocation) {
+      var _position =
+          LatLng(currentLocation["latitude"], currentLocation["longitude"]);
+
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0.00,
+          target: _position,
+          tilt: 0,
+          zoom: 18.0,
+        ),
+      ));
     });
   }
 }
