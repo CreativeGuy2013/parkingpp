@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'bottomsheet.dart';
+import 'time_selection.dart';
 
 var location = new Location();
 
@@ -17,14 +17,14 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  _continueToPay() {
+  _continueToTimeSelect() {
     var _latLng = mapController.cameraPosition.target;
     print(_latLng);
 
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
-          return PurchaseSheet();
+          return TimeSelectSheet();
         });
   }
 
@@ -40,7 +40,7 @@ class HomeState extends State<Home> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _continueToPay(),
+          onPressed: () => _continueToTimeSelect(),
           tooltip: '',
           child: Icon(Icons.arrow_forward),
           elevation: 2.0,
@@ -56,7 +56,7 @@ class HomeState extends State<Home> {
       var _position =
           LatLng(currentLocation["latitude"], currentLocation["longitude"]);
 
-      controller.animateCamera(CameraUpdate.newCameraPosition(
+      controller.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0.00,
           target: _position,
