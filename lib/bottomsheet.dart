@@ -6,9 +6,8 @@ class PurchaseSheet extends StatefulWidget {
 }
 
 class PurchaseSheetState extends State<PurchaseSheet> {
-
-  TimeOfDay _toTime = const TimeOfDay(hour: 7, minute: 28);
-
+  TimeOfDay _toTime = TimeOfDay.now();
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +15,7 @@ class PurchaseSheetState extends State<PurchaseSheet> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: <Widget>[
-            Text('How long do you want to park?',
+            Text('Until when do you want to park?',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.00,
@@ -27,7 +26,7 @@ class PurchaseSheetState extends State<PurchaseSheet> {
               onTap: () { _selectTime(context); },
               child: InputDecorator(
                 decoration: InputDecoration(
-                  labelText: "select time",
+                  labelText: "Time",
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
