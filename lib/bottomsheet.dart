@@ -11,12 +11,11 @@ class PurchaseSheetState extends State<PurchaseSheet> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Text('Blablablabla here we are paying for a parking spot :/.',
-          textAlign: TextAlign.center,
+        padding: const EdgeInsets.all(16.0),
+        child: Text('How long do you want to park?',
           style: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontSize: 24.0
+            fontWeight: FontWeight.bold,
+            fontSize: 20.00,
           )
         )
       )
