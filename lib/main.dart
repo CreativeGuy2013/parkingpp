@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'bottomsheet.dart';
 
 var location = new Location();
 
@@ -26,6 +27,19 @@ class HomeState extends State<Home> {
           zoom: 17.0,
         ),
       ));
+      mapController.clearMarkers();
+      mapController.addMarker(
+        MarkerOptions(
+          consumeTapEvents: true,  // <----- insert this line
+          position: LatLng(currentLocation["latitude"], currentLocation["longitude"])
+          
+        ),
+      );
+      mapController.onMarkerTapped.add((Marker m){
+        showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+          return PurchaseSheet();
+        });
+      }); 
     });
   }
 
