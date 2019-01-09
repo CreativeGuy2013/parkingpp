@@ -17,7 +17,7 @@ class TimeSelectSheetState extends State<TimeSelectSheet> {
                 Text('Until when do you want to park?',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20.00,
+                      fontSize: 24.00,
                     )),
                 TimePicker(),
               ],
@@ -32,6 +32,7 @@ class TimePicker extends StatefulWidget {
 
 class TimePickerState extends State<TimePicker> {
   DateTime _toDateTime = DateTime.now();
+  String _numberPlate = "";
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +55,57 @@ class TimePickerState extends State<TimePicker> {
             });
           },
         ),
+        TextField(
+          decoration: InputDecoration(
+            labelText: "Licence Plate",
+          ),
+          autocorrect: false,
+          textCapitalization: TextCapitalization.characters,
+          maxLength: 12,
+
+          onChanged: (numberPlate) => setState(() {
+            _numberPlate = numberPlate;
+          }),
+        ),
         Padding(
           padding: const EdgeInsets.all(8.00),
           child: RaisedButton(
-            onPressed: () => {},
+            onPressed: () => _pay(),
             textColor: Theme.of(context).primaryTextTheme.body1.color,
             color: Theme.of(context).primaryColor,
             child: Text("Pay"),
           ),
         )
       ],
+    );
+  }
+
+  Future<void> _pay() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Pay'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('You would now fill in your payment information.'),
+                Text(
+                    'We have emailed you a reciept for your parking ticket with car $_numberPlate. Thank you.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Done'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

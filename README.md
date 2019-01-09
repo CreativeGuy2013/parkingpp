@@ -1,6 +1,6 @@
-# parkingpp
+# Parking App
 
-A new Flutter project.
+An app to do parking.
 
 ## Getting Started
 
