@@ -6,7 +6,6 @@ import 'croshair.dart';
 import 'authentication.dart';
 
 void main() {
-  //print("hey");
   runApp(MaterialApp(home: Home()));
 }
 
@@ -46,22 +45,10 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Parking++')),
-      body: Container(
-        foregroundDecoration: new StrikeThroughDecoration(),
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          options: GoogleMapOptions(
-            myLocationEnabled: true,
-            trackCameraPosition: true,
-          ),
-        ),
-      ),
-      floatingActionButton: Container(
-          child: Row(
-        children: _signedIn == true
-            ? <Widget>[
+    var fab = _signedIn == true
+    ?Container(
+      child: Row(
+        children: <Widget>[
                 FloatingActionButton(
                   onPressed: () => _signOut(),
                   tooltip: 'Sign out',
@@ -74,17 +61,30 @@ class HomeState extends State<Home> {
                   tooltip: 'Continue',
                   child: Icon(Icons.arrow_forward),
                   elevation: 2.0,
-                )
-              ]
-            : <Widget>[
-                FloatingActionButton(
-                  onPressed: () => _signIn(),
-                  tooltip: 'Sign out',
-                  child: Icon(Icons.arrow_forward),
-                  elevation: 2.0,
                 ),
-              ],
-      )),
+              ]
+      ))
+    :FloatingActionButton(
+        onPressed: () => _signIn(),
+        tooltip: 'Sign out',
+        child: Icon(Icons.arrow_forward),
+        elevation: 2.0,
+      );
+
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Parking++')),
+      body: Container(
+        foregroundDecoration: new StrikeThroughDecoration(),
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          options: GoogleMapOptions(
+            myLocationEnabled: true,
+            trackCameraPosition: true,
+          ),
+        ),
+      ),
+      floatingActionButton: fab,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
