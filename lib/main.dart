@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  var _signedIn = false;
+  var _signedIn = false; //isSignedIn();
   var location = new Location();
 
   _continueToTimeSelect() {
@@ -40,7 +40,9 @@ class HomeState extends State<Home> {
         });
   }
 
-  _signOut() {}
+  _signOut () {
+    handleSignOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,8 @@ class HomeState extends State<Home> {
           ),
         ),
       ),
-      floatingActionButton: Row(
+      floatingActionButton: Container(
+          child: Row(
         children: _signedIn == true
             ? <Widget>[
                 FloatingActionButton(
@@ -81,7 +84,7 @@ class HomeState extends State<Home> {
                   elevation: 2.0,
                 ),
               ],
-      ),
+      )),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
