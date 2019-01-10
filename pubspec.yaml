@@ -19,6 +19,8 @@ dependencies:
   location:
   cupertino_icons: ^0.1.2
   intl: ^0.15.7
+  google_sign_in: ^3.2.4
+  firebase_auth: ^0.6.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

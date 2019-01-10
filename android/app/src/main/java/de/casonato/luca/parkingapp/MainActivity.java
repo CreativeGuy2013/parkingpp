@@ -1,4 +1,4 @@
-package com.casonato.luca.parkingapp;
+package de.casonato.luca.parkingapp;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

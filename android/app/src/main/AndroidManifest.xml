@@ -5,10 +5,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="de.casonato.luca.parkingapp"
+        android:name="io.flutter.app.FlutterApplication"
         android:label="Parking App"
         android:icon="@mipmap/ic_launcher">
         <activity
+
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

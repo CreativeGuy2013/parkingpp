@@ -67,6 +67,7 @@ class TimePickerState extends State<TimePicker> {
             _numberPlate = numberPlate;
           }),
         ),
+        Text("Price: € ${(((_toDateTime.difference(DateTime.now()).inMinutes / 10).round() * 20) / 100)}"),
         Padding(
           padding: const EdgeInsets.all(8.00),
           child: RaisedButton(

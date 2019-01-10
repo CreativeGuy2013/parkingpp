@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1085686122838",
+    "firebase_url": "https://oc-parking-app.firebaseio.com",
+    "project_id": "oc-parking-app",
+    "storage_bucket": "oc-parking-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085686122838:android:dba7a0249e619fb7",
+        "android_client_info": {
+          "package_name": "de.casonato.luca.parkingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085686122838-430qqbj0b0n1frm723spr5n3bnvjdgil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzVWaybAFafb0rOjy92oPgqJx8Cj7VsTQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
