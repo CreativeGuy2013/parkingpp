@@ -5,6 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+FirebaseUser user;
+bool isSignedIn = false;
+
+startAuth() {
+  _auth.onAuthStateChanged.listen((u) {
+    user = u;
+    isSignedIn = !(u == null);
+  }).isPaused;
+}
+
 Future<FirebaseUser> handleSignIn() async {
   GoogleSignInAccount googleUser = await _googleSignIn.signIn();
   GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -20,12 +30,6 @@ Future<FirebaseUser> handleSignIn() async {
 Future<void> handleSignOut() async {
   await _auth.signOut();
   print("signed out");
-}
-
-Future<bool> isSignedIn() async {
-  FirebaseUser user = await _auth.currentUser();
-  print(user == null ? "not signed in" : "signed in " + user.displayName);
-  return (user == null);
 }
 
 class AuthenticationSheet extends StatefulWidget {

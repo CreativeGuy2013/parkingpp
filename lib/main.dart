@@ -6,7 +6,7 @@ import 'croshair.dart';
 import 'authentication.dart';
 
 void main() {
-  //print("hey");
+  startAuth();
   runApp(MaterialApp(home: Home()));
 }
 
@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  var _signedIn = false; //isSignedIn();
   var location = new Location();
 
   _continueToTimeSelect() {
@@ -40,7 +39,7 @@ class HomeState extends State<Home> {
         });
   }
 
-  _signOut () {
+  _signOut() {
     handleSignOut();
   }
 
@@ -58,9 +57,8 @@ class HomeState extends State<Home> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-          child: Row(
-        children: _signedIn == true
+      floatingActionButton: Column(
+        children: isSignedIn == true
             ? <Widget>[
                 FloatingActionButton(
                   onPressed: () => _signOut(),
@@ -84,8 +82,7 @@ class HomeState extends State<Home> {
                   elevation: 2.0,
                 ),
               ],
-      )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
     );
   }
 
