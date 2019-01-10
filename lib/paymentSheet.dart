@@ -43,17 +43,8 @@ class TimePickerState extends State<TimePicker> {
           selectedDate: _toDateTime,
           selectedTime:
               TimeOfDay(hour: _toDateTime.hour, minute: _toDateTime.minute),
-          selectDate: (DateTime date) {
-            setState(() {
-              _toDateTime = date;
-            });
-          },
-          selectTime: (TimeOfDay time) {
-            setState(() {
-              _toDateTime = DateTime(_toDateTime.year, _toDateTime.month,
-                  _toDateTime.day, time.hour, time.minute);
-            });
-          },
+          selectDate: setday,
+          selectTime: setTime,
         ),
         TextField(
           decoration: InputDecoration(
@@ -78,6 +69,20 @@ class TimePickerState extends State<TimePicker> {
         )
       ],
     );
+  }
+
+  setday(DateTime date){
+    setState(() {
+      _toDateTime = DateTime(date.year, date.month,
+          date.day, _toDateTime.hour, _toDateTime.minute);
+    });
+  }
+
+  setTime(TimeOfDay time){
+    setState(() {
+      _toDateTime = DateTime(_toDateTime.year, _toDateTime.month,
+          _toDateTime.day, time.hour, time.minute);
+    });
   }
 
   Future<void> _pay() async {
@@ -107,32 +112,6 @@ class TimePickerState extends State<TimePicker> {
         );
       },
     );
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    var _initTime =
-        TimeOfDay(hour: _toDateTime.hour, minute: _toDateTime.minute);
-
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: _initTime);
-    if (picked != null && picked != _initTime)
-      setState(() {
-        _toDateTime = DateTime(_toDateTime.year, _toDateTime.month,
-            _toDateTime.day, picked.hour, picked.minute);
-      });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 3)),
-        context: context,
-        initialDate: _toDateTime);
-    if (picked != null && picked != _toDateTime)
-      setState(() {
-        _toDateTime = DateTime(_toDateTime.year, _toDateTime.month,
-            _toDateTime.day, picked.hour, picked.minute);
-      });
   }
 }
 
