@@ -39,10 +39,6 @@ class HomeState extends State<Home> {
         });
   }
 
-  _signOut () {
-    handleSignOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     var fab = _signedIn == true
@@ -50,7 +46,7 @@ class HomeState extends State<Home> {
       child: Row(
         children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () => _signOut(),
+                  onPressed: () => userState.signOut(),
                   tooltip: 'Sign out',
                   mini: true,
                   child: Icon(Icons.exit_to_app),

@@ -4,29 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final UserControll userState = UserControll();
 
-Future<FirebaseUser> handleSignIn() async {
-  GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-  FirebaseUser user = await _auth.signInWithGoogle(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-  print("signed in " + user.displayName);
-  return user;
-}
-
-Future<void> handleSignOut() async {
-  await _auth.signOut();
-  print("signed out");
-}
-
-Future<bool> isSignedIn() async {
-  FirebaseUser user = await _auth.currentUser();
-  print(user == null ? "not signed in" : "signed in " + user.displayName);
-  return (user == null);
-}
+FirebaseUser user;
 
 class AuthenticationSheet extends StatefulWidget {
   @override
@@ -42,11 +22,36 @@ class AuthenticationSheetState extends State<AuthenticationSheet> {
         Text("Authenticate"),
         RaisedButton(
           child: Text("Sign in"),
-          onPressed: () => handleSignIn()
-              .then((FirebaseUser user) => print(user))
+          onPressed: () => userState.signIn()
               .catchError((e) => print(e)),
         )
       ],
     ));
+  }
+}
+
+class UserControll{
+
+  FirebaseUser _user;
+
+  signIn() async {
+    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    _user = await _auth.signInWithGoogle(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    print("signed in " + user.displayName);
+  }
+
+  isLogedIn(){
+    return _user == null;
+  }
+
+  signOut(){ 
+    _auth.signOut();
+    _user = null;
+    print("signed out");
   }
 }
