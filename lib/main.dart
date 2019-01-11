@@ -22,9 +22,6 @@ class HomeState extends State<Home> {
   Widget mapsView;
 
   _continueToTimeSelect() {
-    var _latLng = mapController.cameraPosition.target;
-    print(_latLng);
-
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
