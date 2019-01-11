@@ -22,8 +22,14 @@ class AuthenticationSheetState extends State<AuthenticationSheet> {
         Text("Authenticate"),
         RaisedButton(
           child: Text("Sign in"),
-          onPressed: () => userState.signIn()
-              .catchError((e) => print(e)),
+          onPressed: () async {
+            await userState.signIn()
+              .catchError((e) => print(e));
+              
+            if(userState.isLogedIn()){
+              Navigator.pop(context);
+            }
+          },
         )
       ],
     ));
@@ -41,17 +47,20 @@ class UserControll{
     _user = await _auth.signInWithGoogle(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
-    );
-    print("signed in " + user.displayName);
+    ).catchError((e) => print(e));
+
+    print("signed in " + _user.displayName);
   }
 
   isLogedIn(){
-    return _user == null;
+    print(_user != null);
+    return _user != null;
   }
 
   signOut(){ 
     _auth.signOut();
     _user = null;
     print("signed out");
+    print(_user);
   }
 }

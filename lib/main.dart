@@ -17,8 +17,9 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  var _signedIn = false; //isSignedIn();
   var location = new Location();
+
+  Widget mapsView;
 
   _continueToTimeSelect() {
     var _latLng = mapController.cameraPosition.target;
@@ -33,20 +34,36 @@ class HomeState extends State<Home> {
 
   _signIn() {
     showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AuthenticationSheet();
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AuthenticationSheet();
+      }).whenComplete((){
+        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
+      });      
   }
 
   @override
   Widget build(BuildContext context) {
-    var fab = _signedIn == true
+    /* 
+      this is to only reload the google map once,
+      otherwise it will fetch the data again, use more internet
+      and have bad user experience.
+    */
+    if (mapsView == null){ 
+      mapsView = GoogleMap(
+          onMapCreated: _onMapCreated,
+          options: GoogleMapOptions(
+            myLocationEnabled: true,
+            trackCameraPosition: true,
+          ),
+        );
+    }
+    var fab = userState.isLogedIn()
     ?Container(
       child: Row(
         children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () => userState.signOut(),
+                  onPressed: () => setState(() => userState.signOut() ),
                   tooltip: 'Sign out',
                   mini: true,
                   child: Icon(Icons.exit_to_app),
@@ -72,13 +89,7 @@ class HomeState extends State<Home> {
       appBar: AppBar(title: const Text('Parking++')),
       body: Container(
         foregroundDecoration: new StrikeThroughDecoration(),
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          options: GoogleMapOptions(
-            myLocationEnabled: true,
-            trackCameraPosition: true,
-          ),
-        ),
+        child: mapsView,
       ),
       floatingActionButton: fab,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
