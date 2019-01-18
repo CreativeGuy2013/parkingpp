@@ -4,6 +4,7 @@ import 'package:location/location.dart';
 import 'details.dart';
 import 'croshair.dart';
 import 'authentication.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 void main() {
   runApp(MaterialApp(home: Home()));
@@ -22,6 +23,9 @@ class HomeState extends State<Home> {
   Widget mapsView;
 
   _continueToTimeSelect() {
+    var _latLng = mapController.cameraPosition.target;
+    print(_latLng);
+
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -46,33 +50,41 @@ class HomeState extends State<Home> {
       otherwise it will fetch the data again, use more internet
       and have bad user experience.
     */
-    if (mapsView == null){ 
-      mapsView = GoogleMap(
+    if (mapsView == null){
+      Container(
+        foregroundDecoration: new StrikeThroughDecoration(),
+        child:       mapsView = GoogleMap(
           onMapCreated: _onMapCreated,
           options: GoogleMapOptions(
             myLocationEnabled: true,
             trackCameraPosition: true,
           ),
-        );
+        ),
+      );
+    }
+    if (!userState.isInitialized()){
+      userState.onInitialized((){
+        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
+      });
     }
     var fab = userState.isLogedIn()
     ?Container(
       child: Row(
         children: <Widget>[
-                FloatingActionButton(
-                  onPressed: () => setState(() => userState.signOut() ),
-                  tooltip: 'Sign out',
-                  mini: true,
-                  child: Icon(Icons.exit_to_app),
-                  elevation: 2.0,
-                ),
-                FloatingActionButton(
-                  onPressed: () => _continueToTimeSelect(),
-                  tooltip: 'Continue',
-                  child: Icon(Icons.arrow_forward),
-                  elevation: 2.0,
-                ),
-              ]
+          FloatingActionButton(
+            onPressed: () => setState(() => userState.signOut() ),
+            tooltip: 'Sign out',
+            mini: true,
+            child: Icon(Icons.exit_to_app),
+            elevation: 2.0,
+          ),
+          FloatingActionButton(
+            onPressed: () => _continueToTimeSelect(),
+            tooltip: 'Continue',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+          ),
+        ]
       ))
     :FloatingActionButton(
         onPressed: () => _signIn(),
@@ -84,9 +96,10 @@ class HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Parking++')),
-      body: Container(
-        foregroundDecoration: new StrikeThroughDecoration(),
+      body: ModalProgressHUD(
         child: mapsView,
+        inAsyncCall: !userState.isInitialized(),
+        opacity: 0.2,
       ),
       floatingActionButton: fab,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
