@@ -21,6 +21,7 @@ class HomeState extends State<Home> {
   var location = new Location();
 
   Widget mapsView;
+  Widget fab;
 
   _continueToTimeSelect() {
     var _latLng = mapController.cameraPosition.target;
@@ -63,11 +64,12 @@ class HomeState extends State<Home> {
       );
     }
     if (!userState.isInitialized()){
+      fab = null;
       userState.onInitialized((){
         setState((){ /* nothing, this is just necessary because we need to reload the widget */});
       });
-    }
-    var fab = userState.isLogedIn()
+    }else{
+    fab = userState.isLogedIn()
     ?Container(
       child: Row(
         children: <Widget>[
@@ -92,6 +94,9 @@ class HomeState extends State<Home> {
         child: Icon(Icons.arrow_forward),
         elevation: 2.0,
       );
+
+
+    }
 
 
     return Scaffold(
