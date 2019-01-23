@@ -24,9 +24,11 @@ class HomeState extends State<Home> {
   Widget fab;
 
   _continueToTimeSelect() {
-    if (mapController.cameraPosition.target.latitude != 0 && mapController.cameraPosition.target.longitude != 0){
+    if (mapController.cameraPosition.target.latitude != 0 &&
+        mapController.cameraPosition.target.longitude != 0) {
       _viewCentre = mapController.cameraPosition.target;
-    };
+    }
+    ;
     print(_viewCentre);
 
     showModalBottomSheet<void>(
@@ -42,12 +44,10 @@ class HomeState extends State<Home> {
         builder: (BuildContext context) {
           return AuthenticationSheet();
         }).whenComplete(() {
-          setState(() {
-            /* nothing, this is just necessary because we need to reload the widget */
-          });
-          
-        });
-        
+      setState(() {
+        /* nothing, this is just necessary because we need to reload the widget */
+      });
+    });
   }
 
   @override
@@ -78,22 +78,12 @@ class HomeState extends State<Home> {
       });
     } else {
       fab = userState.isLogedIn()
-          ? Container(
-              child: Row(children: <Widget>[
-              FloatingActionButton(
-                onPressed: () => setState(() => userState.signOut()),
-                tooltip: 'Sign out',
-                mini: true,
-                child: Icon(Icons.exit_to_app),
-                elevation: 2.0,
-              ),
-              FloatingActionButton(
-                onPressed: () => _continueToTimeSelect(),
-                tooltip: 'Continue',
-                child: Icon(Icons.arrow_forward),
-                elevation: 2.0,
-              ),
-            ]))
+          ? FloatingActionButton(
+              onPressed: () => _continueToTimeSelect(),
+              tooltip: 'Continue',
+              child: Icon(Icons.arrow_forward),
+              elevation: 2.0,
+            )
           : FloatingActionButton(
               onPressed: () => _signIn(),
               tooltip: 'Sign out',
