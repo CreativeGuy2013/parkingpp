@@ -126,8 +126,7 @@ class TimePickerState extends State<TimePicker> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(
-                    'Please pay ${_getPrice()} for your car $_licencePlate.'),
+                Text('Please pay ${_getPrice()} for your car $_licencePlate.'),
               ],
             ),
           ),
@@ -148,6 +147,30 @@ class TimePickerState extends State<TimePicker> {
                   "user": userState.getID()
                 });
                 Navigator.of(context).pop();
+
+                return showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text('Payment Success'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('The payment succeeded.'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ]);
+                  },
+                );
               },
             ),
             FlatButton(
