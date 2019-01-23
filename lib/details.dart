@@ -41,7 +41,7 @@ class TimePicker extends StatefulWidget {
 }
 
 class TimePickerState extends State<TimePicker> {
-  DateTime _toDateTime = DateTime.now();
+  DateTime _toDateTime = DateTime.now().add(Duration(hours: 1));
   String _licencePlate = "";
   LatLng location;
 
