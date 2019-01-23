@@ -4,9 +4,9 @@ import 'package:location/location.dart';
 import 'details.dart';
 import 'croshair.dart';
 import 'authentication.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 void main() {
-  //print("hey");
   runApp(MaterialApp(home: Home()));
 }
 
@@ -18,8 +18,10 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   GoogleMapController mapController;
 
-  var _signedIn = false;
   var location = new Location();
+
+  Widget mapsView;
+  Widget fab;
 
   _continueToTimeSelect() {
     var _latLng = mapController.cameraPosition.target;
@@ -34,54 +36,77 @@ class HomeState extends State<Home> {
 
   _signIn() {
     showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AuthenticationSheet();
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AuthenticationSheet();
+      }).whenComplete((){
+        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
+      });      
   }
-
-  _signOut() {}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Parking++')),
-      body: Container(
+    /* 
+      this is to only reload the google map once,
+      otherwise it will fetch the data again, use more internet
+      and have bad user experience.
+    */
+    if (mapsView == null){
+      Container(
         foregroundDecoration: new StrikeThroughDecoration(),
-        child: GoogleMap(
+        child:       mapsView = GoogleMap(
           onMapCreated: _onMapCreated,
           options: GoogleMapOptions(
             myLocationEnabled: true,
             trackCameraPosition: true,
           ),
         ),
+      );
+    }
+    if (!userState.isInitialized()){
+      fab = null;
+      userState.onInitialized((){
+        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
+      });
+    }else{
+    fab = userState.isLogedIn()
+    ?Container(
+      child: Row(
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () => setState(() => userState.signOut() ),
+            tooltip: 'Sign out',
+            mini: true,
+            child: Icon(Icons.exit_to_app),
+            elevation: 2.0,
+          ),
+          FloatingActionButton(
+            onPressed: () => _continueToTimeSelect(),
+            tooltip: 'Continue',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+          ),
+        ]
+      ))
+    :FloatingActionButton(
+        onPressed: () => _signIn(),
+        tooltip: 'Sign out',
+        child: Icon(Icons.arrow_forward),
+        elevation: 2.0,
+      );
+
+
+    }
+
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Parking++')),
+      body: ModalProgressHUD(
+        child: mapsView,
+        inAsyncCall: !userState.isInitialized(),
+        opacity: 0.2,
       ),
-      floatingActionButton: Row(
-        children: _signedIn == true
-            ? <Widget>[
-                FloatingActionButton(
-                  onPressed: () => _signOut(),
-                  tooltip: 'Sign out',
-                  mini: true,
-                  child: Icon(Icons.exit_to_app),
-                  elevation: 2.0,
-                ),
-                FloatingActionButton(
-                  onPressed: () => _continueToTimeSelect(),
-                  tooltip: 'Continue',
-                  child: Icon(Icons.arrow_forward),
-                  elevation: 2.0,
-                )
-              ]
-            : <Widget>[
-                FloatingActionButton(
-                  onPressed: () => _signIn(),
-                  tooltip: 'Sign out',
-                  child: Icon(Icons.arrow_forward),
-                  elevation: 2.0,
-                ),
-              ],
-      ),
+      floatingActionButton: fab,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
