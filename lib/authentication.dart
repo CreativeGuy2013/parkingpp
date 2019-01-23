@@ -6,9 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 final storage = new FlutterSecureStorage();
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final UserControll userState = UserControll();
+final UserControl userState = UserControl();
 
-FirebaseUser user;
 
 class AuthenticationSheet extends StatefulWidget {
   @override
@@ -18,30 +17,27 @@ class AuthenticationSheet extends StatefulWidget {
 class AuthenticationSheetState extends State<AuthenticationSheet> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Text("Authenticate"),
-          RaisedButton(
-            child: Text("Sign in"),
-            onPressed: () async {
-              await userState.signIn()
-                .catchError((e) => print(e));
-              if(userState.isLogedIn()){
-                Navigator.pop(context);
-              }
-            },
-          )
-        ],
-    ));
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text("Authenticate"),
+        RaisedButton(
+          child: Text("Sign in"),
+          onPressed: () async {
+            await userState.signIn()
+              .catchError((e) => print(e));
+            if(userState.isLogedIn()){
+              Navigator.pop(context);
+            }
+          }),
+      ]);
   }
 }
 
-class UserControll{
-
-
+class UserControl{
   var _initialized = false;
   Function _onInitialization;
+  FirebaseUser _user;
 
   bool isInitialized(){
     return _initialized;
@@ -51,7 +47,7 @@ class UserControll{
     _onInitialization = callback;
   }
 
-  UserControll(){
+  UserControl(){
     storage.read(key: "usertoken").then((String usertoken) async{
       var idtoken = await storage.read(key: "idtoken");
       print(idtoken);
@@ -67,8 +63,6 @@ class UserControll{
     });
   }
 
-  FirebaseUser _user;
-
   signIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -81,6 +75,10 @@ class UserControll{
     ).catchError((e) => print(e));
     
     print("signed in " + _user.displayName);
+  }
+
+  String getID(){
+    return _user.uid;
   }
 
   isLogedIn(){

@@ -19,29 +19,35 @@ class HomeState extends State<Home> {
   GoogleMapController mapController;
 
   var location = new Location();
-
+  LatLng _viewCentre;
   Widget mapsView;
   Widget fab;
 
   _continueToTimeSelect() {
-    var _latLng = mapController.cameraPosition.target;
-    print(_latLng);
+    if (mapController.cameraPosition.target != LatLng(0,0)){
+      _viewCentre = mapController.cameraPosition.target;
+    };
+    print(_viewCentre);
 
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
-          return TimeSelectSheet();
+          return TimeSelectSheet(_viewCentre);
         });
   }
 
   _signIn() {
     showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AuthenticationSheet();
-      }).whenComplete((){
-        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
-      });      
+        context: context,
+        builder: (BuildContext context) {
+          return AuthenticationSheet();
+        }).whenComplete(() {
+          setState(() {
+            /* nothing, this is just necessary because we need to reload the widget */
+          });
+          
+        });
+        
   }
 
   @override
@@ -51,10 +57,10 @@ class HomeState extends State<Home> {
       otherwise it will fetch the data again, use more internet
       and have bad user experience.
     */
-    if (mapsView == null){
-      Container(
-        foregroundDecoration: new StrikeThroughDecoration(),
-        child:       mapsView = GoogleMap(
+    if (mapsView == null) {
+      mapsView = Container(
+        foregroundDecoration: StrikeThroughDecoration(),
+        child: GoogleMap(
           onMapCreated: _onMapCreated,
           options: GoogleMapOptions(
             myLocationEnabled: true,
@@ -63,41 +69,38 @@ class HomeState extends State<Home> {
         ),
       );
     }
-    if (!userState.isInitialized()){
+    if (!userState.isInitialized()) {
       fab = null;
-      userState.onInitialized((){
-        setState((){ /* nothing, this is just necessary because we need to reload the widget */});
+      userState.onInitialized(() {
+        setState(() {
+          /* nothing, this is just necessary because we need to reload the widget */
+        });
       });
-    }else{
-    fab = userState.isLogedIn()
-    ?Container(
-      child: Row(
-        children: <Widget>[
-          FloatingActionButton(
-            onPressed: () => setState(() => userState.signOut() ),
-            tooltip: 'Sign out',
-            mini: true,
-            child: Icon(Icons.exit_to_app),
-            elevation: 2.0,
-          ),
-          FloatingActionButton(
-            onPressed: () => _continueToTimeSelect(),
-            tooltip: 'Continue',
-            child: Icon(Icons.arrow_forward),
-            elevation: 2.0,
-          ),
-        ]
-      ))
-    :FloatingActionButton(
-        onPressed: () => _signIn(),
-        tooltip: 'Sign out',
-        child: Icon(Icons.arrow_forward),
-        elevation: 2.0,
-      );
-
-
+    } else {
+      fab = userState.isLogedIn()
+          ? Container(
+              child: Row(children: <Widget>[
+              FloatingActionButton(
+                onPressed: () => setState(() => userState.signOut()),
+                tooltip: 'Sign out',
+                mini: true,
+                child: Icon(Icons.exit_to_app),
+                elevation: 2.0,
+              ),
+              FloatingActionButton(
+                onPressed: () => _continueToTimeSelect(),
+                tooltip: 'Continue',
+                child: Icon(Icons.arrow_forward),
+                elevation: 2.0,
+              ),
+            ]))
+          : FloatingActionButton(
+              onPressed: () => _signIn(),
+              tooltip: 'Sign out',
+              child: Icon(Icons.arrow_forward),
+              elevation: 2.0,
+            );
     }
-
 
     return Scaffold(
       appBar: AppBar(title: const Text('Parking++')),
@@ -117,13 +120,13 @@ class HomeState extends State<Home> {
     });
 
     location.getLocation().then((Map<String, double> currentLocation) {
-      var _position =
+      _viewCentre =
           LatLng(currentLocation["latitude"], currentLocation["longitude"]);
 
       controller.moveCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0.00,
-          target: _position,
+          target: _viewCentre,
           tilt: 0,
           zoom: 18.0,
         ),

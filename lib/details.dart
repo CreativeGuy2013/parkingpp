@@ -1,42 +1,69 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'authentication.dart';
 import 'package:intl/intl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TimeSelectSheet extends StatefulWidget {
-  @override
-  State createState() => TimeSelectSheetState();
-}
+class TimeSelectSheet extends StatelessWidget {
+  LatLng location;
 
-class TimeSelectSheetState extends State<TimeSelectSheet> {
+  TimeSelectSheet(LatLng _location) {
+    location = _location;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: <Widget>[
-                Text('Until when do you want to park?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.00,
-                    )),
-                TimePicker(),
-              ],
-            )));
+    return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: <Widget>[
+            Text('Until when do you want to park?',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.00,
+                )),
+            TimePicker(location),
+          ],
+        ));
   }
 }
 
 class TimePicker extends StatefulWidget {
+  LatLng location;
+
+  TimePicker(LatLng _location) {
+    location = _location;
+  }
+
   @override
-  State createState() => TimePickerState();
+  State createState() => TimePickerState(location);
 }
 
 class TimePickerState extends State<TimePicker> {
   DateTime _toDateTime = DateTime.now();
-  String _numberPlate = "";
+  String _licencePlate = "";
+  LatLng location;
+
+  TimePickerState(LatLng _location) {
+    location = _location;
+  }
+
+  int _price = 0;
+  final _pricePerMinute = 100;
+
+  _calcPrice(int duration) {
+    _price = duration * _pricePerMinute;
+  }
+
+  String _getPrice() {
+    return num.parse((_price / 100).toStringAsFixed(2)).toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _DateTimePicker(
           labelText: 'From',
@@ -53,16 +80,16 @@ class TimePickerState extends State<TimePicker> {
           autocorrect: false,
           textCapitalization: TextCapitalization.characters,
           maxLength: 12,
-
-          onChanged: (numberPlate) => setState(() {
-            _numberPlate = numberPlate;
-          }),
+          onChanged: (licencePlate) => setState(() {
+                _licencePlate = licencePlate;
+              }),
         ),
-        Text("Price: € ${(((_toDateTime.difference(DateTime.now()).inMinutes / 10).round() * 20) / 100)}"),
+        Text("Price: €${_getPrice()}"),
         Padding(
           padding: const EdgeInsets.all(8.00),
           child: RaisedButton(
-            onPressed: () => _pay(),
+            onPressed: () => _pay(
+                _price, location, _licencePlate, DateTime.now(), _toDateTime),
             textColor: Theme.of(context).primaryTextTheme.body1.color,
             color: Theme.of(context).primaryColor,
             child: Text("Pay"),
@@ -72,39 +99,59 @@ class TimePickerState extends State<TimePicker> {
     );
   }
 
-  setday(DateTime date){
+  setday(DateTime date) {
     setState(() {
-      _toDateTime = DateTime(date.year, date.month,
-          date.day, _toDateTime.hour, _toDateTime.minute);
+      _toDateTime = DateTime(date.year, date.month, date.day, _toDateTime.hour,
+          _toDateTime.minute);
+      _calcPrice(_toDateTime.difference(DateTime.now()).inMinutes);
     });
   }
 
-  setTime(TimeOfDay time){
+  setTime(TimeOfDay time) {
     setState(() {
       _toDateTime = DateTime(_toDateTime.year, _toDateTime.month,
           _toDateTime.day, time.hour, time.minute);
+      _calcPrice(_toDateTime.difference(DateTime.now()).inMinutes);
     });
   }
 
-  Future<void> _pay() async {
+  Future<void> _pay(int _amount, LatLng _location, String _licencePlate,
+      DateTime _start, DateTime _end) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Pay'),
+          title: Text('Payment'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('You would now fill in your payment information.'),
                 Text(
-                    'We have emailed you a reciept for your parking ticket with car $_numberPlate. Thank you.'),
+                    'Please pay ${_getPrice()} for your car $_licencePlate.'),
               ],
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Done'),
+              child: Text('Pay'),
+              onPressed: () async {
+                await Firestore.instance
+                    .collection("tickets")
+                    .document()
+                    .setData({
+                  "start": _start,
+                  "end": _end,
+                  "licence_plate": _licencePlate,
+                  "paymentMethod": "test",
+                  "price": _price,
+                  "location": GeoPoint(_location.latitude, _location.longitude),
+                  "user": userState.getID()
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
