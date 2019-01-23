@@ -162,7 +162,8 @@ class HomeState extends State<Home> {
     }
 
     _menuList = <Choice>[
-      Choice(title: 'history', icon: Icons.history, callback: _selectHistory),
+      Choice(title: 'History', icon: Icons.history, callback: _selectHistory),
+      Choice(title: 'Help', icon: Icons.help, callback: _selectHelp),
       Choice(
           title: 'Log out',
           icon: Icons.exit_to_app,
