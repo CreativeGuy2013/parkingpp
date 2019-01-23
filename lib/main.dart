@@ -24,13 +24,14 @@ class HomeState extends State<Home> {
   LatLng _viewCentre;
   Widget mapsView;
   Widget fab;
+  List<Choice> _menuList;
 
   _continueToTimeSelect() {
     if (mapController.cameraPosition.target.latitude != 0 &&
         mapController.cameraPosition.target.longitude != 0) {
       _viewCentre = mapController.cameraPosition.target;
     }
-    ;
+
     print(_viewCentre);
 
     showModalBottomSheet<void>(
@@ -47,7 +48,8 @@ class HomeState extends State<Home> {
           return AuthenticationSheet();
         }).whenComplete(() {
       setState(() {
-        /* nothing, this is just necessary because we need to reload the widget */
+        _setFab();
+        _setMenuList();
       });
     });
   }
@@ -134,7 +136,36 @@ class HomeState extends State<Home> {
     });
   }
 
-  List<Choice> _menuList;
+  _setMenuList() {
+    setState(() {
+      _menuList = userState.isLogedIn()
+          ? <Choice>[
+              Choice(
+                  title: 'History',
+                  icon: Icons.history,
+                  callback: _selectHistory),
+              Choice(title: 'Help', icon: Icons.help, callback: _selectHelp),
+              Choice(
+                  title: 'Log out',
+                  icon: Icons.exit_to_app,
+                  callback: () => setState(() {
+                        userState.signOut();
+                        _setFab();
+                        _setMenuList();
+                      })),
+            ]
+          : <Choice>[
+              Choice(
+                  title: 'Log in',
+                  callback: () => setState(() {
+                        _signIn();
+                        _setFab();
+                        _setMenuList();
+                      })),
+            ];
+    });
+  }
+
   _selectHistory() {
     Navigator.push(
       context,
@@ -157,21 +188,11 @@ class HomeState extends State<Home> {
     fab = null;
     if (!userState.isInitialized()) {
       userState.onInitialized(_setFab);
+      userState.onInitialized(_setMenuList);
     } else {
       _setFab();
+      _setMenuList();
     }
-
-    _menuList = <Choice>[
-      Choice(title: 'History', icon: Icons.history, callback: _selectHistory),
-      Choice(title: 'Help', icon: Icons.help, callback: _selectHelp),
-      Choice(
-          title: 'Log out',
-          icon: Icons.exit_to_app,
-          callback: () => setState(() {
-                userState.signOut();
-                _setFab();
-              })),
-    ];
 
     mapsView = Container(
       foregroundDecoration: StrikeThroughDecoration(),

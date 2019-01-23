@@ -50,14 +50,14 @@ class TimePickerState extends State<TimePicker> {
   }
 
   int _price = 0;
-  final _pricePerMinute = 100;
+  final _pricePerMinute = 10;
 
   _calcPrice(int duration) {
     _price = duration * _pricePerMinute;
   }
 
   String _getPrice() {
-    return num.parse((_price / 100).toStringAsFixed(2)).toString();
+    return (_price / 100).toStringAsFixed(2);
   }
 
   @override
@@ -140,7 +140,7 @@ class TimePickerState extends State<TimePicker> {
                     .setData({
                   "start": _start,
                   "end": _end,
-                  "licence_plate": _licencePlate,
+                  "licencePlate": _licencePlate,
                   "paymentMethod": "test",
                   "price": _price,
                   "location": GeoPoint(_location.latitude, _location.longitude),

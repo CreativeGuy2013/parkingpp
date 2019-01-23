@@ -39,7 +39,7 @@ class UserControl {
     return _initialized;
   }
 
-  onInitialized(Function callback) {
+  void onInitialized(Function callback) {
     _onInitialization = callback;
   }
 
@@ -61,7 +61,7 @@ class UserControl {
     });
   }
 
-  signIn() async {
+  Future<void> signIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -81,12 +81,12 @@ class UserControl {
     return _user.uid;
   }
 
-  isLogedIn() {
+  bool isLogedIn() {
     print(_user != null);
     return _user != null;
   }
 
-  signOut() {
+  void signOut() {
     _auth.signOut();
     _user = null;
     storage.delete(key: "usertoken");
