@@ -34,42 +34,40 @@ class HomeState extends State<Home> {
     print(_viewCentre);
 
     showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return TimeSelectSheet(_viewCentre);
-      });
+        context: context,
+        builder: (BuildContext context) {
+          return TimeSelectSheet(_viewCentre);
+        });
   }
 
   _signIn() {
     showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AuthenticationSheet();
-      }).whenComplete(() {
-        setState(() {
-          /* nothing, this is just necessary because we need to reload the widget */
-        });
-        
+        context: context,
+        builder: (BuildContext context) {
+          return AuthenticationSheet();
+        }).whenComplete(() {
+      setState(() {
+        /* nothing, this is just necessary because we need to reload the widget */
       });
-        
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     fab = userState.isLogedIn()
-    ? FloatingActionButton(
-        onPressed: () => _continueToTimeSelect(),
-        tooltip: 'Continue',
-        child: Icon(Icons.arrow_forward),
-        elevation: 2.0,
-        heroTag: "continue",
-      )
-    : FloatingActionButton(
-        onPressed: () => _signIn(),
-        tooltip: 'Sign in',
-        child: Icon(Icons.arrow_forward),
-        elevation: 2.0,
-      );
+        ? FloatingActionButton(
+            onPressed: () => _continueToTimeSelect(),
+            tooltip: 'Continue',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+            heroTag: "continue",
+          )
+        : FloatingActionButton(
+            onPressed: () => _signIn(),
+            tooltip: 'Sign in',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+          );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Parking++'),
@@ -117,59 +115,61 @@ class HomeState extends State<Home> {
     });
   }
 
-  _setFab(){
+  _setFab() {
     setState(() {
       fab = userState.isLogedIn()
-        ? FloatingActionButton(
-            onPressed: () => _continueToTimeSelect(),
-            tooltip: 'Continue',
-            child: Icon(Icons.arrow_forward),
-            elevation: 2.0,
-            heroTag: "continue",
-          )
-        : FloatingActionButton(
-            onPressed: () => _signIn(),
-            tooltip: 'Sign in',
-            child: Icon(Icons.arrow_forward),
-            elevation: 2.0,
-          );
+          ? FloatingActionButton(
+              onPressed: () => _continueToTimeSelect(),
+              tooltip: 'Continue',
+              child: Icon(Icons.arrow_forward),
+              elevation: 2.0,
+              heroTag: "continue",
+            )
+          : FloatingActionButton(
+              onPressed: () => _signIn(),
+              tooltip: 'Sign in',
+              child: Icon(Icons.arrow_forward),
+              elevation: 2.0,
+            );
     });
   }
 
   List<Choice> _menuList;
-  _selectHistory(){
+  _selectHistory() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HistoryPage()),
     );
   }
-  _selectHelp(){
+
+  _selectHelp() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HelpPage()),
     );
   }
-  _select(Choice c){
+
+  _select(Choice c) {
     c.callback();
   }
 
-
-  HomeState(){
+  HomeState() {
     fab = null;
     if (!userState.isInitialized()) {
       userState.onInitialized(_setFab);
-    }else{
+    } else {
       _setFab();
     }
 
-
     _menuList = <Choice>[
       Choice(title: 'history', icon: Icons.history, callback: _selectHistory),
-      Choice(title: 'Log out', icon: Icons.exit_to_app,
-        callback: () => setState((){
-          userState.signOut();
-          _setFab();
-        })),
+      Choice(
+          title: 'Log out',
+          icon: Icons.exit_to_app,
+          callback: () => setState(() {
+                userState.signOut();
+                _setFab();
+              })),
     ];
 
     mapsView = Container(
@@ -183,8 +183,6 @@ class HomeState extends State<Home> {
       ),
     );
   }
-
-
 }
 
 class Choice {

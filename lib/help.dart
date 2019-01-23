@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-
-
 class HelpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("HeLpMe!1!1!1!1"),
-      ),
-      body: ListView(
+        appBar: AppBar(
+          title: Text("HeLpMe!1!1!1!1"),
+        ),
+        body: ListView(
           children: <Widget>[
             Text('HeY!?',
                 style: TextStyle(
@@ -17,5 +15,6 @@ class HelpPage extends StatelessWidget {
                   fontSize: 24.00,
                 )),
           ],
-    ));
-  }}
+        ));
+  }
+}
