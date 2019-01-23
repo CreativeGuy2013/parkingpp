@@ -24,7 +24,7 @@ class HomeState extends State<Home> {
   Widget fab;
 
   _continueToTimeSelect() {
-    if (mapController.cameraPosition.target != LatLng(0,0)){
+    if (mapController.cameraPosition.target.latitude != 0 && mapController.cameraPosition.target.longitude != 0){
       _viewCentre = mapController.cameraPosition.target;
     };
     print(_viewCentre);
