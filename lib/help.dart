@@ -5,7 +5,7 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("HeLpMe!1!1!1!1"),
+          title: Text("Help"),
         ),
         body: ListView(
           children: <Widget>[
