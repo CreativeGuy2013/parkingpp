@@ -32,8 +32,6 @@ class HomeState extends State<Home> {
       _viewCentre = mapController.cameraPosition.target;
     }
 
-    print(_viewCentre);
-
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -120,49 +118,52 @@ class HomeState extends State<Home> {
   _setFab() {
     setState(() {
       fab = userState.isLogedIn()
-          ? FloatingActionButton(
-              onPressed: () => _continueToTimeSelect(),
-              tooltip: 'Continue',
-              child: Icon(Icons.arrow_forward),
-              elevation: 2.0,
-              heroTag: "continue",
-            )
-          : FloatingActionButton(
-              onPressed: () => _signIn(),
-              tooltip: 'Sign in',
-              child: Icon(Icons.arrow_forward),
-              elevation: 2.0,
-            );
+        ? FloatingActionButton(
+            onPressed: () => _continueToTimeSelect(),
+            tooltip: 'Continue',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+            heroTag: "continue",
+          )
+        : FloatingActionButton(
+            onPressed: () => _signIn(),
+            tooltip: 'Sign in',
+            child: Icon(Icons.arrow_forward),
+            elevation: 2.0,
+          );
     });
   }
 
   _setMenuList() {
     setState(() {
       _menuList = userState.isLogedIn()
-          ? <Choice>[
-              Choice(
-                  title: 'History',
-                  icon: Icons.history,
-                  callback: _selectHistory),
-              Choice(title: 'Help', icon: Icons.help, callback: _selectHelp),
-              Choice(
-                  title: 'Log out',
-                  icon: Icons.exit_to_app,
-                  callback: () => setState(() {
-                        userState.signOut();
-                        _setFab();
-                        _setMenuList();
-                      })),
-            ]
-          : <Choice>[
-              Choice(
-                  title: 'Log in',
-                  callback: () => setState(() {
-                        _signIn();
-                        _setFab();
-                        _setMenuList();
-                      })),
-            ];
+        ? <Choice>[
+          Choice(
+            title: 'History',
+            icon: Icons.history,
+            callback: _selectHistory),
+          Choice(
+            title: 'Help',
+            icon: Icons.help,
+            callback: _selectHelp),
+          Choice(
+            title: 'Log out',
+            icon: Icons.exit_to_app,
+            callback: () => setState(() {
+                  userState.signOut();
+                  _setFab();
+                  _setMenuList();
+            })),
+        ]
+        : <Choice>[
+          Choice(
+              title: 'Log in',
+              callback: () => setState(() {
+                    _signIn();
+                    _setFab();
+                    _setMenuList();
+                  })),
+        ];
     });
   }
 
