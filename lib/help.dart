@@ -77,7 +77,7 @@ class HelpPageDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Enter details \n",
+            "Entering details \n",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

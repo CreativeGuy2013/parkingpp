@@ -1,0 +1,206 @@
+{
+    "@@last_modified": "2019-01-24T17:55:25.320760",
+    "authenticate": "Inloggen",
+    "@authenticate": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "authenticateMessage": "Om te beginnen druk de knop hieronder om met uw Google-account in te loggen.",
+    "@authenticateMessage": {
+        "description": "tell the user to press signin button (google) (below this text).",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "signin": "Aanmelden",
+    "@signin": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "signout": "Afmelden",
+    "@signout": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "history": "Geschiedenis",
+    "@history": {
+        "description": "parking history",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "help": "Help",
+    "@help": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "continueToDetails": "Verder",
+    "@continueToDetails": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "appName": "Parking++",
+    "@appName": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "untilWhenPark": "Tot wanneer wilt u parkeren?",
+    "@untilWhenPark": {
+        "description": "question asking until when you want to park",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "until": "Tot",
+    "@until": {
+        "description": "text above until time dropdown in details menu",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "licencePlate": "Kenteken",
+    "@licencePlate": {
+        "description": "text for licence plate text field",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "price": "Prijs: €{price}",
+    "@price": {
+        "type": "text",
+        "placeholders": {
+            "price": {
+
+            }
+        }
+    },
+    "payButton": "Betalen",
+    "@payButton": {
+        "description": "pay button text",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paymentAcceptTitle": "Betaling",
+    "@paymentAcceptTitle": {
+        "description": "pay alert 1 title",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paymentAcceptText": "Betaal €{price} voor uw auto met kenteken {licencePlate}",
+    "@paymentAcceptText": {
+        "type": "text",
+        "placeholders": {
+            "price": {
+
+            },
+            "licencePlate": {
+
+            }
+        }
+    },
+    "cancelButton": "Afbreken",
+    "@cancelButton": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessTitle": "Betaling succes",
+    "@paySuccessTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessText": "De betaling is geslaagd.",
+    "@paySuccessText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessOKButton": "OK",
+    "@paySuccessOKButton": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSelectParkingLocationTitle": "Selecteer uw parkeer locatie",
+    "@helpSelectParkingLocationTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSelectParkingLocationText": "To select your parking location, drag the map with one finger so your cars location is under the crosshair in the center of the screen.\n\nYou can zoom in and out of the map by putting two fingers on the display and moving them towards and apart from each other without letting go of the screen. \n\nTo center the map to your current location press the circle icon on the map in the top right corner.\n            ",
+    "@helpSelectParkingLocationText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpDetailsTitle": "Entering details",
+    "@helpDetailsTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpDetailsText": "You can now enter the until when you want to park. Do this by tapping on the date and\/or time selectors and choosing a date\/time. The maximum parking duration is seven days.\n\nOnce you have selected a date and time the system will calculate the price for the parking. \n\nIn the Licence Plate field enter your licence plate. If you don't enter this correctly you might recieve a ticket from an inspector. \n\nYou can now pay. Do this by pressing the \"Pay\" button. Follow the on screen instructions for payment.\n            ",
+    "@helpDetailsText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpHistoryTitle": "Parking History",
+    "@helpHistoryTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpHistoryText": "You can view your parking history by opening the \"Parking History\" page from the same menu as this help button. \n\nYou will see a list of your whole parking history. Every entry shows the time parking started, the duration, the location and the price. \n\nTo see a detailed map of where you parked press on an individual entry. A map will appear on the bottom of the screen. To close the map swipe down on it.\n            ",
+    "@helpHistoryText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSupportTitle": "Further support",
+    "@helpSupportTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSupportText": "Are you having any issues with the app or your parking ticket? Call 1800-KPMHELP. We are available for you 24\/7.\n            ",
+    "@helpSupportText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    }
+}

@@ -66,7 +66,7 @@ class TimePickerState extends State<TimePicker> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _DateTimePicker(
-          labelText: 'From',
+          labelText: 'Until',
           selectedDate: _toDateTime,
           selectedTime:
               TimeOfDay(hour: _toDateTime.hour, minute: _toDateTime.minute),
@@ -126,7 +126,7 @@ class TimePickerState extends State<TimePicker> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Please pay ${_getPrice()} for your car $_licencePlate.'),
+                Text('Please pay ${_getPrice()} for your car with $_licencePlate.'),
               ],
             ),
           ),
@@ -141,7 +141,7 @@ class TimePickerState extends State<TimePicker> {
                   "start": _start,
                   "end": _end,
                   "licencePlate": _licencePlate,
-                  "paymentMethod": "test",
+                  "paymentMethod": "ideal",
                   "price": _price,
                   "location": GeoPoint(_location.latitude, _location.longitude),
                   "user": userState.getID()

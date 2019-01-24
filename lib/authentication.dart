@@ -16,17 +16,35 @@ class AuthenticationSheet extends StatefulWidget {
 class AuthenticationSheetState extends State<AuthenticationSheet> {
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      Text("Authenticate"),
-      RaisedButton(
-          child: Text("Sign in"),
-          onPressed: () async {
-            await userState.signIn().catchError((e) => print(e));
-            if (userState.isLogedIn()) {
-              Navigator.pop(context);
-            }
-          }),
-    ]);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "Authenticate" + "\n",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          """
+To get started, please log in to your Google account by pressing the button below.
+          """,
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        RaisedButton(
+            child: Text("Log in"),
+            onPressed: () async {
+              await userState.signIn().catchError((e) => print(e));
+              if (userState.isLogedIn()) {
+                Navigator.pop(context);
+              }
+            }),
+      ],
+    );
   }
 }
 

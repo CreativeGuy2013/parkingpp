@@ -1,0 +1,206 @@
+{
+    "@@last_modified": "2019-01-24T17:55:25.320760",
+    "authenticate": "Authentifizieren",
+    "@authenticate": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "authenticateMessage": "Um loszulegen, melden Sie sich in Ihrem Google-Konto durch Drücken des Anmelde-Knopfes.",
+    "@authenticateMessage": {
+        "description": "tell the user to press signin button (google) (below this text).",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "signin": "Anmelden",
+    "@signin": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "signout": "Ausloggen",
+    "@signout": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "history": "Verlauf",
+    "@history": {
+        "description": "parking history",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "help": "Hilfe",
+    "@help": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "continueToDetails": "Weiter",
+    "@continueToDetails": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "appName": "Parking++",
+    "@appName": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "untilWhenPark": "Bis wann möchten Sie parken?",
+    "@untilWhenPark": {
+        "description": "question asking until when you want to park",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "until": "Bis",
+    "@until": {
+        "description": "text above until time dropdown in details menu",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "licencePlate": "KFZ-Kennzeichen",
+    "@licencePlate": {
+        "description": "text for licence plate text field",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "price": "Preis: €{price}",
+    "@price": {
+        "type": "text",
+        "placeholders": {
+            "price": {
+
+            }
+        }
+    },
+    "payButton": "Bezahlen",
+    "@payButton": {
+        "description": "pay button text",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paymentAcceptTitle": "Zahlung",
+    "@paymentAcceptTitle": {
+        "description": "pay alert 1 title",
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paymentAcceptText": "Bitte bezahlen Sie €{price} für Ihr Auto mit KFZ-Kennzeichen {licencePlate}",
+    "@paymentAcceptText": {
+        "type": "text",
+        "placeholders": {
+            "price": {
+
+            },
+            "licencePlate": {
+
+            }
+        }
+    },
+    "cancelButton": "Abbrechen",
+    "@cancelButton": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessTitle": "Zahlung erfolgreich",
+    "@paySuccessTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessText": "Die Zahlung ist es gelungen.",
+    "@paySuccessText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "paySuccessOKButton": "Okay",
+    "@paySuccessOKButton": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSelectParkingLocationTitle": "Wählen Sie Ihren Parkplatz-Standort aus",
+    "@helpSelectParkingLocationTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSelectParkingLocationText": "Um Ihren Parkplatz-Standort auszuwählen, ziehen Sie die Karte mit einem Finger so das ihr Auto Standort unter dem Fadenkreuz in der Mitte des Bildschirms ist.\n\nSie können die Karte vergrößern und Verkleinern durch das auseinander schieben und zusammenführen von zwei Fingern auf dem Bildschirm.\n\nUm die Karte auf ihre aktuelle Position zu zentrieren drücken Sie das Kreissymbol  in der oberen rechten Ecke der Karte.",
+    "@helpSelectParkingLocationText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpDetailsTitle": "Eingabe von details",
+    "@helpDetailsTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpDetailsText": "Sie können nun eingeben die bis wann Sie parken möchten. Tippen Sie Dazu auf das Datum und\/oder die Uhrzeit und wählen Sie ein Datum und eine Uhrzeit aus. Die maximale Parkdauer beträgt sieben Tage.\n\nSobald Sie ein Datum und eine Uhrzeit ausgewählt haben berechnet das System den Preis für das Park-Ticket. \n\nGeben Sie nun ihr KFZ-Kennzeichen im KFZ-Kennzeichen Feld ein. Wenn Sie dies nicht richtig eingeben erhalten Sie möglicherweise ein Ticket von einem Inspektor da dieser das Auto dann nicht ihnen zuordnen kann. \n\nSie können nun bezahlen. Tun Sie dies durch Drücken der Taste \"Bezahlen\". Folgen Sie die Anweisungen auf dem Bildschirm.",
+    "@helpDetailsText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpHistoryTitle": "Park Verlauf",
+    "@helpHistoryTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpHistoryText": "Sie können Ihren Park Verlauf anzeigen, durch das Öffnen der Seite \"Verlauf\" im selben Menü wo sie auch diese Schaltfläche \"Hilfe\" finden.\n\nNun sehen Sie eine Liste Ihres Park Verlaufes. Jeder Eintrag zeigt an wann das sie das Ticket gekauft haben, die Dauer des Park-Tickets, der Standort und der \n\nEine detaillierte Karte von ihrem Parkplatz können sie sehen durch auf einen Eintrag zu Drücken. Eine Karte wird in dem unteren Teil des Bildschirms angezeigt. Um die Karte zu schließen, ziehen sie diese Mit einem Finger in Richtung des unteren Bildschirmrand.",
+    "@helpHistoryText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSupportTitle": "Weitere Hilfe",
+    "@helpSupportTitle": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    },
+    "helpSupportText": "Haben Sie Probleme mit der App oder Ihrem Parkticket? Rufen sie 1800-KPMHELP an. Wir sind für Sie 24\/7 erreichbar.",
+    "@helpSupportText": {
+        "type": "text",
+        "placeholders": {
+
+        }
+    }
+}
