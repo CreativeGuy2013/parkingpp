@@ -64,8 +64,6 @@ class UserControl {
   UserControl() {
     storage.read(key: "usertoken").then((String usertoken) async {
       var idtoken = await storage.read(key: "idtoken");
-      print(idtoken);
-      print(usertoken);
       if (usertoken != null && idtoken != null) {
         _user = await _auth
             .signInWithGoogle(
@@ -91,8 +89,6 @@ class UserControl {
           idToken: googleAuth.idToken,
         )
         .catchError((e) => print(e));
-
-    print("signed in " + _user.displayName);
   }
 
   String getID() {
@@ -100,7 +96,6 @@ class UserControl {
   }
 
   bool isLogedIn() {
-    print(_user != null);
     return _user != null;
   }
 
@@ -109,7 +104,5 @@ class UserControl {
     _user = null;
     storage.delete(key: "usertoken");
     storage.delete(key: "idtoken");
-    print("signed out");
-    print(_user);
   }
 }
