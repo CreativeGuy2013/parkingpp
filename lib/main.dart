@@ -7,9 +7,39 @@ import 'authentication.dart';
 import 'history.dart';
 import 'help.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'localizations.dart';
 
 void main() {
-  runApp(MaterialApp(home: Home()));
+  runApp(MaterialApp(
+      home: Home(),
+      localizationsDelegates: [
+        AppLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'), // English
+        const Locale('nl'), // Dutch
+        const Locale('de'), // German
+      ],
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context).appName,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.lightBlue[600],
+
+        fontFamily: 'Montserrat',
+
+        textTheme: TextTheme(
+          headline: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+          title: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+          body1: TextStyle(fontSize: 18.0, fontFamily: 'Hind'),
+          body2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      )));
 }
 
 class Home extends StatefulWidget {
@@ -23,10 +53,11 @@ class HomeState extends State<Home> {
   var location = new Location();
   LatLng _viewCentre;
   Widget mapsView;
-  Widget fab;
-  List<Choice> _menuList;
 
-  _continueToTimeSelect() {
+  Widget fab;
+  List<Choice> menuList;
+
+  void _continueToTimeSelect() {
     if (mapController.cameraPosition.target.latitude != 0 &&
         mapController.cameraPosition.target.longitude != 0) {
       _viewCentre = mapController.cameraPosition.target;
@@ -39,43 +70,30 @@ class HomeState extends State<Home> {
         });
   }
 
-  _signIn() {
+  void _signIn() {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
           return AuthenticationSheet();
         }).whenComplete(() {
-      setState(() {
-        _setFab();
-        _setMenuList();
-      });
+      _setFab();
+      _setMenuList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    fab = userState.isLogedIn()
-        ? FloatingActionButton(
-            onPressed: () => _continueToTimeSelect(),
-            tooltip: 'Continue',
-            child: Icon(Icons.arrow_forward),
-            elevation: 2.0,
-            heroTag: "continue",
-          )
-        : FloatingActionButton(
-            onPressed: () => _signIn(),
-            tooltip: 'Sign in',
-            child: Icon(Icons.arrow_forward),
-            elevation: 2.0,
-          );
+    fab = _getFab();
+    menuList = _getMenuList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Parking++'),
+        title: Text(AppLocalizations.of(context).appName),
         actions: <Widget>[
           PopupMenuButton<Choice>(
             onSelected: _select,
             itemBuilder: (BuildContext context) {
-              return _menuList.map((Choice choice) {
+              return menuList.map((Choice choice) {
                 return PopupMenuItem<Choice>(
                   value: choice,
                   child: Text(choice.title),
@@ -115,66 +133,74 @@ class HomeState extends State<Home> {
     });
   }
 
-  _setFab() {
+  void _setFab() {
     setState(() {
-      fab = userState.isLogedIn()
+      fab = _getFab();
+    });
+  }
+
+  FloatingActionButton _getFab() {
+    return userState.isLogedIn()
         ? FloatingActionButton(
             onPressed: () => _continueToTimeSelect(),
-            tooltip: 'Continue',
+            tooltip: AppLocalizations.of(context).continueToDetails,
             child: Icon(Icons.arrow_forward),
             elevation: 2.0,
             heroTag: "continue",
           )
         : FloatingActionButton(
             onPressed: () => _signIn(),
-            tooltip: 'Sign in',
+            tooltip: AppLocalizations.of(context).signin,
             child: Icon(Icons.arrow_forward),
             elevation: 2.0,
           );
-    });
   }
 
-  _setMenuList() {
+  void _setMenuList() {
     setState(() {
-      _menuList = userState.isLogedIn()
-        ? <Choice>[
-          Choice(
-            title: 'History',
-            icon: Icons.history,
-            callback: _selectHistory),
-          Choice(
-            title: 'Help',
-            icon: Icons.help,
-            callback: _selectHelp),
-          Choice(
-            title: 'Log out',
-            icon: Icons.exit_to_app,
-            callback: () => setState(() {
-                  userState.signOut();
-                  _setFab();
-                  _setMenuList();
-            })),
-        ]
-        : <Choice>[
-          Choice(
-              title: 'Log in',
-              callback: () => setState(() {
-                    _signIn();
-                    _setFab();
-                    _setMenuList();
-                  })),
-        ];
+      menuList = _getMenuList();
     });
   }
 
-  _selectHistory() {
+  List<Choice> _getMenuList() {
+    return userState.isLogedIn()
+        ? <Choice>[
+            Choice(
+                title: AppLocalizations.of(context).history,
+                icon: Icons.history,
+                callback: _selectHistory),
+            Choice(
+                title: AppLocalizations.of(context).help,
+                icon: Icons.help,
+                callback: _selectHelp),
+            Choice(
+                title: AppLocalizations.of(context).signout,
+                icon: Icons.exit_to_app,
+                callback: () => setState(() {
+                      userState.signOut();
+                      _setFab();
+                      _setMenuList();
+                    })),
+          ]
+        : <Choice>[
+            Choice(
+                title: AppLocalizations.of(context).signin,
+                callback: () => setState(() {
+                      _signIn();
+                      _setFab();
+                      _setMenuList();
+                    })),
+          ];
+  }
+
+  void _selectHistory() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HistoryPage()),
     );
   }
 
-  _selectHelp() {
+  void _selectHelp() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HelpPage()),
@@ -186,10 +212,12 @@ class HomeState extends State<Home> {
   }
 
   HomeState() {
-    fab = null;
+    print(userState.isInitialized());
     if (!userState.isInitialized()) {
-      userState.onInitialized(_setFab);
-      userState.onInitialized(_setMenuList);
+      userState.onInitialized(() {
+        _setFab();
+        _setMenuList();
+      });
     } else {
       _setFab();
       _setMenuList();
@@ -199,9 +227,10 @@ class HomeState extends State<Home> {
       foregroundDecoration: StrikeThroughDecoration(),
       child: GoogleMap(
         onMapCreated: _onMapCreated,
-        options: GoogleMapOptions(
-          myLocationEnabled: true,
-          trackCameraPosition: true,
+        myLocationEnabled: true,
+        trackCameraPosition: true,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(0, 0),
         ),
       ),
     );

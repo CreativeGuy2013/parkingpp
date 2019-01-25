@@ -3,6 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'localizations.dart';
+
 final storage = new FlutterSecureStorage();
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,34 +18,26 @@ class AuthenticationSheet extends StatefulWidget {
 class AuthenticationSheetState extends State<AuthenticationSheet> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Authenticate" + "\n",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          """
-To get started, please log in to your Google account by pressing the button below.
-          """,
-          style: TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        RaisedButton(
-            child: Text("Log in"),
-            onPressed: () async {
-              await userState.signIn().catchError((e) => print(e));
-              if (userState.isLogedIn()) {
-                Navigator.pop(context);
-              }
-            }),
-      ],
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(AppLocalizations.of(context).authenticate + "\n",
+              style: Theme.of(context).textTheme.title),
+          Text(AppLocalizations.of(context).authenticateMessage + "\n",
+              style: Theme.of(context).textTheme.body1),
+          RaisedButton(
+              child: Text(AppLocalizations.of(context).signin),
+              onPressed: () async {
+                await userState.signIn().catchError((e) => print(e));
+                if (userState.isLogedIn()) {
+                  Navigator.pop(context);
+                }
+              }),
+        ],
+      ),
     );
   }
 }

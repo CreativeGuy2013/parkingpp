@@ -5,6 +5,8 @@ import 'authentication.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'localizations.dart';
+
 class TimeSelectSheet extends StatelessWidget {
   LatLng location;
 
@@ -18,11 +20,8 @@ class TimeSelectSheet extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: <Widget>[
-            Text('Until when do you want to park?',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.00,
-                )),
+            Text(AppLocalizations.of(context).untilWhenPark,
+                style: Theme.of(context).textTheme.title),
             TimePicker(location),
           ],
         ));
@@ -66,7 +65,7 @@ class TimePickerState extends State<TimePicker> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _DateTimePicker(
-          labelText: 'Until',
+          labelText: AppLocalizations.of(context).until,
           selectedDate: _toDateTime,
           selectedTime:
               TimeOfDay(hour: _toDateTime.hour, minute: _toDateTime.minute),
@@ -75,7 +74,7 @@ class TimePickerState extends State<TimePicker> {
         ),
         TextField(
           decoration: InputDecoration(
-            labelText: "Licence Plate",
+            labelText: AppLocalizations.of(context).licencePlate,
           ),
           autocorrect: false,
           textCapitalization: TextCapitalization.characters,
@@ -83,8 +82,10 @@ class TimePickerState extends State<TimePicker> {
           onChanged: (licencePlate) => setState(() {
                 _licencePlate = licencePlate;
               }),
+          style: Theme.of(context).textTheme.body1,
         ),
-        Text("Price: €${_getPrice()}"),
+        Text(AppLocalizations.of(context).price(_getPrice()),
+            style: Theme.of(context).textTheme.body1),
         Padding(
           padding: const EdgeInsets.all(8.00),
           child: RaisedButton(
@@ -92,7 +93,7 @@ class TimePickerState extends State<TimePicker> {
                 _price, location, _licencePlate, DateTime.now(), _toDateTime),
             textColor: Theme.of(context).primaryTextTheme.body1.color,
             color: Theme.of(context).primaryColor,
-            child: Text("Pay"),
+            child: Text(AppLocalizations.of(context).payButton),
           ),
         )
       ],
@@ -122,17 +123,18 @@ class TimePickerState extends State<TimePicker> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Payment'),
+          title: Text(AppLocalizations.of(context).paymentAcceptTitle),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Please pay ${_getPrice()} for your car with $_licencePlate.'),
+                Text(AppLocalizations.of(context)
+                    .paymentAcceptText(_getPrice(), _licencePlate)),
               ],
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Pay'),
+              child: Text(AppLocalizations.of(context).payButton),
               onPressed: () async {
                 await Firestore.instance
                     .collection("tickets")
@@ -153,17 +155,19 @@ class TimePickerState extends State<TimePicker> {
                   barrierDismissible: false, // user must tap button!
                   builder: (BuildContext context) {
                     return AlertDialog(
-                        title: Text('Payment Success'),
+                        title:
+                            Text(AppLocalizations.of(context).paySuccessTitle),
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
-                              Text('The payment succeeded.'),
+                              Text(AppLocalizations.of(context).paySuccessText),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           FlatButton(
-                            child: Text('OK'),
+                            child: Text(AppLocalizations.of(context)
+                                .paySuccessOKButton),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -174,7 +178,7 @@ class TimePickerState extends State<TimePicker> {
               },
             ),
             FlatButton(
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context).cancelButton),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -260,7 +264,7 @@ class _DateTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle valueStyle = Theme.of(context).textTheme.title;
+    final TextStyle valueStyle = Theme.of(context).textTheme.body1;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'localizations.dart';
+
 class HelpPage extends StatelessWidget {
   final pageController = PageController(
     initialPage: 0,
@@ -10,7 +12,7 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Help"),
+        title: Text(AppLocalizations.of(context).help),
       ),
       body: new Stack(
         fit: StackFit.expand,
@@ -47,18 +49,14 @@ class HelpPageSelectParkingLocation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Select your Parking Location \n",
+            AppLocalizations.of(context).helpSelectParkingLocationTitle + "\n",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            """
-To select your parking location, drag the map with one finger so your cars location is under the crosshair in the center of the screen.\n
-You can zoom in and out of the map by putting two fingers on the display and moving them towards and apart from each other without letting go of the screen. \n
-To center the map to your current location press the circle icon on the map in the top right corner.
-            """,
+            AppLocalizations.of(context).helpSelectParkingLocationText,
             style: TextStyle(
               fontSize: 16,
             ),
@@ -77,19 +75,14 @@ class HelpPageDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Entering details \n",
+            AppLocalizations.of(context).helpDetailsTitle + "\n",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            """
-You can now enter the until when you want to park. Do this by tapping on the date and/or time selectors and choosing a date/time. The maximum parking duration is seven days.\n
-Once you have selected a date and time the system will calculate the price for the parking. \n
-In the Licence Plate field enter your licence plate. If you don't enter this correctly you might recieve a ticket from an inspector. \n
-You can now pay. Do this by pressing the "Pay" button. Follow the on screen instructions for payment.
-            """,
+            AppLocalizations.of(context).helpDetailsText,
             style: TextStyle(
               fontSize: 16,
             ),
@@ -108,18 +101,14 @@ class HelpPageHistory extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Parking History \n",
+            AppLocalizations.of(context).helpHistoryTitle + "\n",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            """
-You can view your parking history by opening the "Parking History" page from the same menu as this help button. \n
-You will see a list of your whole parking history. Every entry shows the time parking started, the duration, the location and the price. \n
-To see a detailed map of where you parked press on an individual entry. A map will appear on the bottom of the screen. To close the map swipe down on it.
-            """,
+            AppLocalizations.of(context).helpDetailsText,
             style: TextStyle(
               fontSize: 16,
             ),
@@ -137,16 +126,15 @@ class HelpPageSupport extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Further support \n",
+          Text(
+            AppLocalizations.of(context).helpSupportTitle + "\n",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            """
-Are you having any issues with the app or your parking ticket? Call 1800-KPMHELP. We are available for you 24/7.
-            """,
+            AppLocalizations.of(context).helpSupportText,
             style: TextStyle(
               fontSize: 16,
             ),
@@ -156,7 +144,6 @@ Are you having any issues with the app or your parking ticket? Call 1800-KPMHELP
     );
   }
 }
-
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
