@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'localizations.dart';
+import '../localizations.dart';
 
 class HelpPage extends StatelessWidget {
   final pageController = PageController(
